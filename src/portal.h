@@ -3,12 +3,20 @@
 // Retaining the Portuguese translations since this project has a large
 // fan base in Brazil. Shouts to CyberJulio as well.
 
-#define DEFAULT_AP_SSID_NAME "NEMO Free WiFi"
 #define SD_CREDS_PATH "/nemo-portal-creds.txt"
-
 
 #if defined(LANGUAGE_EN_US) && defined(LANGUAGE_PT_BR) && defined(LANGUAGE_IT_IT) && defined(LANGUAGE_FR_FR)
 #error "Please define only one language: LANGUAGE_EN_US, LANGUAGE_PT_BR, LANGUAGE_IT_IT or LANGUAGE_FR_FR"
+#endif
+
+#if defined(LANGUAGE_PT_BR)
+#define DEFAULT_AP_SSID_NAME "WiFi Livre"
+#elif defined(LANGUAGE_IT_IT)
+#define DEFAULT_AP_SSID_NAME "WiFi Gratuito"
+#elif defined(LANGUAGE_FR_FR)
+#define DEFAULT_AP_SSID_NAME "WiFi Gratuit"
+#else
+#define DEFAULT_AP_SSID_NAME "Free WiFi"
 #endif
 
 #if defined(LANGUAGE_EN_US)

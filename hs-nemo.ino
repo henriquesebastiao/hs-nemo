@@ -1,133 +1,36 @@
-// Nemo Firmware for the M5 Stack Stick C Plus
-// github.com/n0xa | IG: @4x0nn
+// HS-NEMO is a fork of the original Nemo project for M5 Stack Cardputer, which implements some beacon attacks with Portuguese SSIDs and a few changes.
+// https://github.com/henriquesebastiao
 
-// -=-=-=-=-=-=- Uncomment the platform you're building for -=-=-=-=-=-=-
-// #define STICK_C_PLUS
-// #define STICK_C_PLUS2
-// #define STICK_C
-// #define CARDPUTER
-// -=-=- Uncommenting more than one at a time will result in errors -=-=-
+// Nemo Firmware for the M5 Stack Stick C Plus
+// https://github.com/n0xa | IG: @4x0nn
+
+#define CARDPUTER
+
 
 // -=-=- NEMO Language for Menu and Portal -=- Thanks, @marivaaldo and @Mmatuda! -=-=-
 // #define LANGUAGE_EN_US
-// #define LANGUAGE_PT_BR
+#define LANGUAGE_PT_BR
 // #define LANGUAGE_IT_IT
 // #define LANGUAGE_FR_FR
 
 // -- DEPRECATED - THESE ARE NOW EEPROM DEFINED -- //
-uint16_t BGCOLOR=0x0001; // placeholder
-uint16_t FGCOLOR=0xFFF1; // placeholder
+uint16_t BGCOLOR=0x0001; // Black
+uint16_t FGCOLOR=0xF800; // Red
 
 #ifndef NEMO_VERSION
-  #define NEMO_VERSION "dev"
+  #define NEMO_VERSION "v0.1.0"
 #endif
 
-#if !defined(CARDPUTER) && !defined(STICK_C_PLUS2) && !defined(STICK_C_PLUS) && !defined(STICK_C)
+#if !defined(CARDPUTER)
   #define CARDPUTER
 #endif
 
-#if !defined(LANGUAGE_EN_US) && !defined(LANGUAGE_PT_BR) && !defined(LANGUAGE_IT_IT) && !defined(LANGUAGE_FR_FR)
-  #define LANGUAGE_EN_US
+#if !defined(LANGUAGE_EN_US) && !defined(LANGUAGE_PT_BR)
+  #define LANGUAGE_PT_BR
 #endif
 
 // -=-=- DEAUTHER -=-  @bmorcelli -=-=- | Discord: Pirata#5263 bmorcelli
 #define DEAUTHER  //Need to make some changes in arduino IDE, refer to https://github.com/bmorcelli/m5stickC_Plus2-nemo/tree/main/DEAUTH%20Prerequisites
-
-
-#if defined(STICK_C_PLUS)
-  #include <M5StickCPlus.h>
-  // -=-=- Display -=-=-
-  String platformName="StickC+";
-  #define BIG_TEXT 4
-  #define MEDIUM_TEXT 3
-  #define SMALL_TEXT 2
-  #define TINY_TEXT 1
-  // -=-=- FEATURES -=-=-
-  #define M5LED 10
-  #define RTC
-  #define AXP
-  #define ACTIVE_LOW_IR
-  #define ROTATION
-  #define USE_EEPROM
-  //#define SDCARD   //Requires a custom-built adapter
-  //#define SONG
-
-  // -=-=- ALIASES -=-=-
-  #define DISP M5.Lcd
-  #define IRLED 9
-  #define SPEAKER M5.Beep
-//  #define BITMAP M5.Lcd.drawBitmap(0, 0, 320, 240, NEMOMatrix) // This doesn't work, generates static.
-  #define BITMAP Serial.println("unsupported")
-  #define SD_CLK_PIN 0
-  #define SD_MISO_PIN 36
-  #define SD_MOSI_PIN 26
-  #define SD_CS_PIN -1 //can be 14, to avoid serial messages
-  #define M5LED_ON LOW
-  #define M5LED_OFF HIGH
-#endif
-
-#if defined(STICK_C_PLUS2)
-  #include <M5StickCPlus2.h>
-  // -=-=- Display -=-=-
-  String platformName="StickC+2";
-  #define BIG_TEXT 4
-  #define MEDIUM_TEXT 3
-  #define SMALL_TEXT 2
-  #define TINY_TEXT 1
-  // -=-=- FEATURES -=-=-
-  #define ACTIVE_LOW_IR
-  #define M5LED 19
-  #define ROTATION
-  #define USE_EEPROM
-  #define RTC      //TODO: plus2 has a BM8563 RTC but the class isn't the same, needs work.
-  #define SDCARD   //Requires a custom-built adapter
-  #define PWRMGMT
-  #define SPEAKER M5.Speaker
-  //#define SONG
-  // -=-=- ALIASES -=-=-
-  #define DISP M5.Lcd
-  #define IRLED 19
-  #define BITMAP M5.Lcd.drawBmp(NEMOMatrix, 97338)
-  #define M5_BUTTON_MENU 35
-  #define M5_BUTTON_HOME 37
-  #define M5_BUTTON_RST 39
-  #define BACKLIGHT 27
-  #define MINBRIGHT 190
-  #define SD_CLK_PIN 0
-  #define SD_MISO_PIN 36
-  #define SD_MOSI_PIN 26
-  #define SD_CS_PIN 14 //can be -1, but sends a lot of messages of error in serial monitor
-  #define M5LED_ON HIGH
-  #define M5LED_OFF LOW
-#endif
-
-#if defined(STICK_C)
-  #include <M5StickC.h>
-  // -=-=- Display -=-=-
-  String platformName="StickC";
-  #define BIG_TEXT 2
-  #define MEDIUM_TEXT 2
-  #define SMALL_TEXT 1
-  #define TINY_TEXT 1
-  // -=-=- FEATURES -=-=-
-  #define M5LED 10
-  #define RTC
-  #define AXP
-  #define ROTATION
-  #define USE_EEPROM
-  #define SDCARD   //Requires a custom-built adapter
-  //#define SONG
-  // -=-=- ALIASES -=-=-
-  #define DISP M5.Lcd
-  #define IRLED 9
-  #define BITMAP Serial.println("unsupported")
-  #define SD_CLK_PIN 0
-  #define SD_MISO_PIN 36
-  #define SD_MOSI_PIN 26
-  #define SD_CS_PIN -1 //can be 14, to avoid serial messages
-  #define M5LED_ON LOW
-  #define M5LED_OFF HIGH
-#endif
 
 #if defined(CARDPUTER)
   #include <M5Cardputer.h>
@@ -143,14 +46,12 @@ uint16_t FGCOLOR=0xFFF1; // placeholder
   #define ACTIVE_LOW_IR
   #define USE_EEPROM
   #define SDCARD
-  //#define SONG
   // -=-=- ALIASES -=-=-
   #define DISP M5Cardputer.Display
   #define IRLED 44
   #define BACKLIGHT 38
   #define MINBRIGHT 165
   #define SPEAKER M5Cardputer.Speaker
-  #define BITMAP M5Cardputer.Display.drawBmp(NEMOMatrix, 97338)
   #define SD_CLK_PIN 40
   #define SD_MISO_PIN 39
   #define SD_MOSI_PIN 14
@@ -172,7 +73,6 @@ uint16_t FGCOLOR=0xFFF1; // placeholder
 // ROTATION   - Allow screen to be rotated
 // DISP       - Set to the API's Display class
 // SDCARD     - Device has an SD Card Reader attached
-// SONG       - Play melody or beep on startup
 // SPEAKER    - Aliased to the prefix used for making noise
 // BACKLIGHT  - Alias to the pin used for the backlight on some models
 // MINBRIGHT  - The lowest number (0-255) for the backlight to show through
@@ -207,6 +107,7 @@ uint16_t FGCOLOR=0xFFF1; // placeholder
 // 97 - Mount/UnMount SD Card on M5Stick devices, if SDCARD is declared
 
 const String contributors[] PROGMEM = {
+  "@henriquesebastiao",
   "@bicurico",
   "@bmorcelli",
   "@chr0m1ng",
@@ -260,27 +161,25 @@ bool clone_flg = false;
   #include <EEPROM.h>
   #define EEPROM_SIZE 64
 #endif
+#include <BLEServer.h>
+#include <BLEUtils.h>
+#include <DNSServer.h>
 #include <IRremoteESP8266.h>
 #include <IRsend.h>
-#include <DNSServer.h>
 #include <WebServer.h>
-#include "applejuice.h"
-#include "WORLD_IR_CODES.h"
-#include "wifispam.h"
-#include "sd.h"
-#include "portal.h"
-#include "NEMOMatrix.h"
-#include "songs.h"
-#include "localization.h"
-#include <BLEUtils.h>
-#include <BLEServer.h>
+#include "src/applejuice.h"
+#include "src/world_ir_codes.h"
+#include "src/wifispam.h"
+#include "src/sd.h"
+#include "src/portal.h"
+#include "src/localization.h"
 #if defined(DEAUTHER)
-  #include "deauth.h"                                                               //DEAUTH
+  #include "src/deauth.h"                                                               //DEAUTH
   #include "esp_wifi.h"                                                             //DEAUTH
   wifi_ap_record_t ap_record;                                                       //DEAUTH
 #endif
 struct MENU {
-  char name[19];
+  char name[25];
   int command;
 };
 
@@ -291,9 +190,10 @@ struct QRCODE {
 
 QRCODE qrcodes[] = {
   { TXT_BACK, "" },
-  { "Rickroll", "https://youtu.be/dQw4w9WgXcQ"},
-  { "HackerTyper", "https://hackertyper.net/"},
-  { "ZomboCom", "https://html5zombo.com/"},
+  { "Repository", "https://github.com/henriquesebastiao.com/hs-nemo"},
+  { "Saturn", "https://youtu.be/dzNvk80XY9s"},
+  { "Shodan", "https://www.shodan.io/"},
+  { "WiGLE", "https://wigle.net/index/"},
 };
 
 
@@ -427,9 +327,9 @@ MENU mmenu[] = {
 #if defined(RTC)
   { TXT_CLOCK, 0},
 #endif
-  { "TV-B-Gone", 13}, // We jump to the region menu first
-  { "Bluetooth", 16},
   { "WiFi", 12},
+  { "Bluetooth", 16},
+  { "TV-B-Gone", 13}, // We jump to the region menu first
   { "QR Codes", 18},
   { TXT_SETTINGS, 2},
 };
@@ -609,7 +509,7 @@ void clearSettings(){
   DISP.setRotation(1);
   DISP.setTextColor(BLUE, WHITE);
   DISP.setCursor(40, 0);
-  DISP.println("M5-NEMO");
+  DISP.println("HS-NEMO");
   DISP.setTextColor(WHITE, BLUE);
   DISP.setTextSize(SMALL_TEXT);
   DISP.println(TXT_CLRING_SETTINGS);
@@ -822,11 +722,11 @@ void theme_loop() {
     cursor = cursor % thmenu_size;
     switch (thmenu[cursor].command){
       case 0:
-        FG=11;
+        FG=13;
         BG=1;
         break;       
-      case 1: // Nemo
-        FG=11;
+      case 1: // HS-Nemo
+        FG=13;
         BG=1;
         break;
       case 2: // Tux
@@ -862,7 +762,7 @@ void theme_loop() {
         BG=19;
         break;
       case 99:
-        FG=11;
+        FG=13;
         BG=1;
         break;
      }
@@ -1744,7 +1644,7 @@ void credits_setup(){
   DISP.setTextColor(BLACK, WHITE);
   DISP.setTextSize(MEDIUM_TEXT);
   DISP.setCursor(0, 10);
-  DISP.print(" M5-NEMO\n");
+  DISP.print(" HS-NEMO\n");
   DISP.setTextSize(SMALL_TEXT);
   DISP.printf("  %s\n",NEMO_VERSION);
   DISP.println(" For M5Stack");
@@ -1821,6 +1721,11 @@ void wifispam_setup() {
     case 3:
       DISP.printf(TXT_RND_SSID, ct);
       break;
+    case 4:
+      for(str = funnyssids_br; *str; ++str) ct += *str == '\n';
+      DISP.printf(" - %d SSIDs:\n", ct);
+      DISP.print(funnyssids_br);
+      break;
   }
   DISP.setTextSize(SMALL_TEXT);
   current_proc = 11;
@@ -1848,6 +1753,13 @@ void wifispam_loop() {
         i++;
       }
       beaconSpamList(rickrollssids);
+      break;
+    case 4:
+      len = sizeof(funnyssids_br);
+      while(i < len){
+        i++;
+      }
+      beaconSpamList(funnyssids_br);
       break;
     case 3:
       char* randoms = randomSSID();
@@ -1895,6 +1807,7 @@ MENU wsmenu[] = {
   { TXT_BACK, 5},
   { TXT_WF_SCAN, 0},
   { TXT_WF_SPAM_FUN, 1},
+  { TXT_WF_SPAM_FUN_BR, 6},
   { TXT_WF_SPAM_RR, 2},
   { TXT_WF_SPAM_RND, 3},
   { "NEMO Portal", 4},
@@ -1940,6 +1853,9 @@ void wsmenu_loop() {
         break;
       case 5:
         current_proc = 1;
+        break;
+      case 6:
+        spamtype = 4;
         break;
     }
   }
@@ -2214,20 +2130,13 @@ void wsAmenu_loop() {
 #endif
 void bootScreen(){
   // Boot Screen
-  #ifdef SONG
-  setupSongs();
-  #endif
-  #ifndef STICK_C
-  BITMAP;
-  delay(3000);
-  #endif
   DISP.fillScreen(BGCOLOR);
   DISP.setTextSize(BIG_TEXT);
   DISP.setCursor(40, 0);
-  DISP.println("M5-NEMO");
-  DISP.setCursor(10, 30);
+  DISP.println("HS-NEMO");
+  DISP.setCursor(80, 30);
   DISP.setTextSize(SMALL_TEXT);
-  DISP.printf("%s-%s\n",NEMO_VERSION,platformName);
+  DISP.printf("%s\n",NEMO_VERSION);
 #if defined(CARDPUTER)
   DISP.println(TXT_INST_NXT);
   DISP.println(TXT_INST_PRV);
@@ -2394,7 +2303,7 @@ void setup() {
       EEPROM.write(1, 15);   // 15 second auto dim time
       EEPROM.write(2, 100);  // 100% brightness
       EEPROM.write(3, 0);    // TVBG NA Region
-      EEPROM.write(4, 11);   // FGColor Green
+      EEPROM.write(4, 13);   // FGColor Green
       EEPROM.write(5, 1);    // BGcolor Black
       EEPROM.commit();
     }

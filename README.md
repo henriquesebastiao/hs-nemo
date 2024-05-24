@@ -1,14 +1,12 @@
-# M5Stick-NEMO
-Firmware for high-tech pranks on M5Stack ESP32 Devices
-
-![M5-Nemo Matrix Logo](https://github.com/n0xa/m5stick-nemo/blob/main/NEMOMatrix.png)
-Logo by @unagironin
+# HS-Nemo
+HS-Nemo is a fork of the original Nemo project for M5 Stack Cardputer, which implements some beacon attacks with Portuguese SSIDs and a few changes.
 
 ## Name and Background
 NEMO started a personal project to help me learn more about ESP32 development with the Arduino IDE. I decided to replicate a few common, trending pranks that were getting a lot of attention in the tech community, as a challenge to myself, and to also better understand these attacks.  
 NEMO is named after the small, clever and stubborn fish in Finding Nemo. This project stands in contrast to another high-tech gadget that's associated with certain sea-dwelling creatures. I did want to prove that there are a lot of things you can do with a small development kit and some curiosity. I have no delusions of superseding the capabilities of any similar device with this project. It's just for fun, and my own education.  
 
-![M5-Nemo on M5StickC family and M5Cardputer](https://github.com/n0xa/m5stick-nemo/blob/main/M5-Nemo.jpg)
+## HS-NEMO Changes
+* Added funny SSIDs in Portuguese PT_BR
 
 ## My Changelog
 * Adjusted .github/workflow/compile.yml to compile with the DEAUTH function.
@@ -113,7 +111,7 @@ arduino-cli lib install M5Cardputer --log-level warn --verbose
 arduino-cli lib install IRRemoteESP8266 --log-level warn --verbose
 
 # Compile sketch
-arduino-cli compile --fqbn m5stack:esp32:m5stack_cardputer -e --build-property build.partitions=huge_app --build-property upload.maximum_size=3145728 ./m5stick-nemo.ino
+arduino-cli compile --fqbn m5stack:esp32:m5stack_cardputer -e --build-property build.partitions=huge_app --build-property upload.maximum_size=3145728 ./hs-nemo.ino
 
 ```
 
@@ -122,42 +120,15 @@ arduino-cli compile --fqbn m5stack:esp32:m5stack_cardputer -e --build-property b
 
 ```bash
 
-esptool.py --chip esp32s3 merge_bin --output final.bin 0x0000 m5stick-nemo.ino.bootloader.bin 0x8000 m5stick-nemo.ino.partitions.bin 0x10000 m5stick-nemo.ino.bin
+esptool.py --chip esp32s3 merge_bin --output HS-NEMO.bin 0x0000 hs-nemo.ino.bootloader.bin 0x8000 hs-nemo.ino.partitions.bin 0x10000 hs-nemo.ino.bin
 ```
 
 - You can now flash the merged binary firmware using `esptool`
 
 ```bash
 
-esptool.exe write_flash -z 0 final.bin
+esptool.exe write_flash -z 0 HS-NEMO.bin
 ```
-
-## Building from Source (Docker)
-
-- Install Docker
-- Run `./scripts/docker-build.sh <configs/.env.>`
-- Run `./scripts/flash.sh --device=<your-device-port>`
-
-```sh
-# This will build an image will all required libraries based on the configured platform, and it will compile, output and merge binaries
-# By default this will compile for the M5Cardputer in en-us locale, ./config/.env.M5Cardputer
-./scripts/docker-build.sh 
-
-# If you want to select a different build config you can pass it as a parameter. See ./configs/ for various configurations
-./scripts/docker-build.sh ./config/.env.M5Cardputer
-
-# Binary files will be output to ./build
-ls ./build
-
-# This will flash the build output from the build step, it reuses the container image from the previous step.
-# By default this will compile for the M5Cardputer in en-us locale, ./config/.env.M5Cardputer
-./scripts/flash.sh --device=/dev/ttyusb0 
-
-# If you passed a different build config make sure to pass it along to the flash script
-./scipts/flash.sh --device=/dev/ttyusb0 --build-config=./config/.env.M5Cardputer
-```
-
-
 
 ## Troubleshooting
 * Several features output debugging information to the serial monitor. Use the Serial Monitor feature in Arduino IDE or M5Burner to gather this information. It may have useful hints. When filing a bug report, it often helps to include serial monitor output.
