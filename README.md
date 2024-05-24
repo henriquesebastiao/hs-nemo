@@ -1,5 +1,5 @@
 # HS-Nemo
-HS-Nemo is a fork of the original Nemo project for M5 Stack Cardputer, which implements some beacon attacks with Portuguese SSIDs and a few changes.
+HS-Nemo is a fork of @n0xa original [Nemo project](https://github.com/n0xa/m5stick-nemo) for M5 Stack Cardputer, which implements some beacon attacks with Portuguese SSIDs and a few changes.
 
 ## Name and Background
 NEMO started a personal project to help me learn more about ESP32 development with the Arduino IDE. I decided to replicate a few common, trending pranks that were getting a lot of attention in the tech community, as a challenge to myself, and to also better understand these attacks.  
